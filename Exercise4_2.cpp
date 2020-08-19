@@ -14,25 +14,22 @@ void fill_up_vec(std::vector<double>* v){
 
 void print_vec(std::vector<double>* v){
     for(int i = 0; i < (v->size()); i++){
-        std::cout << (*v)[i] << std::endl;
+        std::cout << (*v)[i] << " ";
     }
 };
 
 double find_mediana(std::vector<double>* v){
     double mediana;
-    int first, second;
-    if((v->size() % 2) == 0){
-        first = (v->size()/2);
-        second = first + 1;
-//        std::cout << (*v)[first] << " "  << (*v)[second]
-  //                                       << std::endl;   
-        return mediana = (((*v)[first]+(*v)[second])/2);
+    int fir;
+    if(((v->size()) % 2) == 0){
+        fir = ((v->size()-1)/2);
+        return ((*v)[fir]+(*v)[fir+1])/2;
     
     }else{
-        return (mediana = (*v)[(v->size()/2)]);
-        };
+        return (*v)[(v->size()/2)]; 
+    }; 
 };
-
+ 
 int main(){
 
 std::vector<double> vec;
@@ -41,12 +38,11 @@ fill_up_vec(&vec);
 
 std::sort(vec.begin(), vec.end());
 
+std::cout << "Sorted vector: " << std::endl;
 print_vec(&vec);
+std::cout << std::endl;
 
-double m = 25/2;
-std::cout << m << std::endl;
-std::cout << "Mediana is: " << find_mediana(&vec);
-
+std::cout << "Mediana is: " << find_mediana(&vec) << std::endl;
 
 return 0;
 }
