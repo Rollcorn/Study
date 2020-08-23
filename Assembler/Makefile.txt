@@ -1,0 +1,4 @@
+nasm -f elf $(source)
+ld -m elf_i386 -s -o $(source) $(source).o
+rm $(source).o
+
