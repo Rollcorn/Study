@@ -2,6 +2,7 @@
 #include <iostream>
 
 int main()
+/*
 {
 
    QTextStream out(stdout);
@@ -25,7 +26,7 @@ int main()
 
    return 0;
 }
-
+*/
 /*
 {
     QTextStream out(stdout);
