@@ -12,39 +12,28 @@ using std::cout;
 using std::endl;
 using std::cin;
 using std::vector;
-const int desk_row = 8;
-const int desk_colum = 8;
+const int DESK_SIZE = 64;
 
-int progression(int desire_prise){
-    int r;
-    int c;
-    int desk_size = desk_row * desk_colum;
-    int* desk = new int[desk_row];
-    for(int i = 0; i < desk_row; i++){
-        *desk[i] = new int[desk_colum];
-        for(int j = 0; j < desk_colum; j++){
-            if(i == 0 && j == 0) desk[i][j] = 1;
-            else desk[i][j] *= 2;  
-            if(desk[i][j] >= desire_prise){
-                cout << desk[i][j];
-                r = i;
-                c = j;
-                break;               
-            }else  cout << desk[i][j];
+void progression(long int desire_prize){
+    long int curr_prize = 1;
+    vector<long int> desk_prize {curr_prize};
+    for(int i = 0; i < DESK_SIZE; i++){
+        if(curr_prize/2 < desire_prize){
+            curr_prize *= 2;
+            desk_prize.push_back(curr_prize);
+            cout << "Position #" << i << '\t';
+            cout << desk_prize[i] << endl;
         }
     }
-
-    delete[] desk;
-    return r, c;
 }
+
 
 int main(){
    cout << "Enter your desire prise: " << endl;
    int desire_prise;
    cin >> desire_prise; 
-   cout << "The prise on the desk is: " << progression(desire_prise)
-                                        << endl;
-
+   cout << "The prise on the desk is: \n";
+   progression(desire_prise);
 
 return 0;
 }
