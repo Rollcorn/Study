@@ -3,12 +3,12 @@
 void merge_sort(double* array, int16_t array_size){
     if(array_size <= 1) return;
     int16_t middle = array_size/2;
-    double* left = array; 
-    double* right = array + middle;
     //BEWARE! Using address arithmetics: point + number gives
     //shifted arrray begin.
-    int16_t* left_size = middle;     
-    int16_t* right_size = array + middle;
+    double* left = array; 
+    double* right = array + middle;
+    int16_t left_size = middle;     
+    int16_t right_size = array_size + middle;
     merge_sort(left, left_size);
     merge_sort(right, right_size);
     
@@ -52,9 +52,9 @@ void merge_sort(double* array, int16_t array_size){
 }
 
 int main(){
-    int A[] = {5, 4, 7, 1, 6, 8, 9, 3};
-    int16_t N = A[]/A[0];
-    merge_sort(A, N)
+    double A[] = {5, 4, 7, 1, 6, 8, 9, 3};
+    int16_t N = sizeof(A)/sizeof(A[0]);
+    merge_sort(A, N);
 
     return 0;
 }
