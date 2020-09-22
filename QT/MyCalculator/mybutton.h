@@ -6,8 +6,6 @@
 class MyButton : public QToolButton
 {
     Q_OBJECT
-
-
 public:
     explicit MyButton(const QString& text, QWidget* parent = nullptr);
 

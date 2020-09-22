@@ -31,6 +31,7 @@ private slots:
 private:
     MyButton* createButton(const QString& text, const char* member);
 
+    void abortOperation();
     double      m_sum_in_memory;
 
     QString     m_pending_operation;
@@ -41,9 +42,9 @@ private:
 
     MyButton* m_digitButtons[10];
 
+    bool calculate(const QString& operation);
 
-
-    QString m_squareRoot_sign = QChar(0x221A);
+    QString m_squareRoot_sign = QChar(0x0000221A);
     QString m_power_sign = 'x' + QChar(0x000000b2);
     QString m_reciprocal_sign = "1/x";
 
