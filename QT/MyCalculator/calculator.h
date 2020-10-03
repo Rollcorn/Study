@@ -42,7 +42,7 @@ private:
 
     MyButton* m_digitButtons[10];
 
-    bool calculate(const QString& operation);
+    bool calculate(double operand, const QString& operation);
 
     QString m_squareRoot_sign = QChar(0x0000221A);
     QString m_power_sign = 'x' + QChar(0x000000b2);

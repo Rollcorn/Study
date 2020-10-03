@@ -150,6 +150,8 @@ void Calculator::doubleOperandClicked(){
     MyButton* btn = (MyButton*) sender();
     QString operation = btn->text();
 
+    double operand = m_display_down->text().toDouble();
+
     if (m_display_down->text() ==  "0")
         return;
 
@@ -158,9 +160,24 @@ void Calculator::doubleOperandClicked(){
     if (m_display_down->text() ==  "")
         return;
 
+    m_display_down->clear();
+
+    if (!m_pending_operation.isEmpty()){
+        if(!calculate(operand, m_pending_operation)){
+            abortOperation();
+            return;
+        }
+        m_pending_operation.clear();
+    }else{
+        m_display_up->setText(QString::number(operand));
+    }
+
+    m_pending_operation = operation;
+
+
 }
 void Calculator::equalClicked(){
-
+    //ОСТАНОВИЛСЯ ЗДЕСЬ!!!!!
 }
 void Calculator::pointClicked(){
 
@@ -214,7 +231,7 @@ void Calculator::abortOperation()
         m_display_down->setText("###");
 }
 
-bool Calculator::calculate(const QString &operation)
+bool Calculator::calculate(double operand, const QString &operation)
 {
     double temp_total = m_display_up->text().toDouble();
     double right_operand = m_display_down->text().toDouble();
@@ -226,7 +243,7 @@ bool Calculator::calculate(const QString &operation)
     } else if (operation == m_times_sign){
         temp_total *= right_operand;
     } else if (operation == m_division_sign){
-        if (right_operand == 0.0)
+        if (operand == 0.0)
             return false;
         temp_total /= right_operand;
     }
