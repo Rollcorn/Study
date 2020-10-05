@@ -177,10 +177,24 @@ void Calculator::doubleOperandClicked(){
 
 }
 void Calculator::equalClicked(){
-    //ОСТАНОВИЛСЯ ЗДЕСЬ!!!!!
-}
-void Calculator::pointClicked(){
+    double operand = m_display_down->text().toDouble();
 
+    if(!m_pending_operation.isEmpty()){
+        if(!calculate(operand, m_pending_operation)){
+            abortOperation();
+            return;
+        }
+        m_pending_operation.clear();
+    }
+    m_display_down->setText(m_display_up->text());
+    m_display_up->clear();
+    m_sign->clear();
+}
+
+void Calculator::pointClicked(){
+    if(!m_display_down->text().contains('.')){
+        m_display_down->setText(m_display_down->text()+'.');
+    }
 }
 void Calculator::changeSignClicked(){
     QString text = m_display_down->text();
@@ -213,16 +227,21 @@ void Calculator::clearAll(){
     m_display_up->clear();
 }
 void Calculator::clearMemory(){
+    m_sum_in_memory = 0.0;
 
 }
 void Calculator::readMemory(){
-
+    m_display_up->clear();
+    m_sign->clear();
+    m_display_down->setText(QString::number(m_sum_in_memory));
 }
 void Calculator::addToMemory(){
-
+    equalClicked();
+    m_sum_in_memory += m_display_down->text().toDouble();
 }
 void Calculator::minToMemory(){
-
+    equalClicked();
+    m_sum_in_memory -= m_display_down->text().toDouble();
 }
 
 void Calculator::abortOperation()
@@ -231,10 +250,10 @@ void Calculator::abortOperation()
         m_display_down->setText("###");
 }
 
-bool Calculator::calculate(double operand, const QString &operation)
+bool Calculator::calculate(double right_operand, const QString &operation)
 {
     double temp_total = m_display_up->text().toDouble();
-    double right_operand = m_display_down->text().toDouble();
+    //double right_operand = m_display_down->text().toDouble();
 
     if (operation == m_plus_sign){
         temp_total += right_operand;
@@ -243,7 +262,7 @@ bool Calculator::calculate(double operand, const QString &operation)
     } else if (operation == m_times_sign){
         temp_total *= right_operand;
     } else if (operation == m_division_sign){
-        if (operand == 0.0)
+        if (right_operand == 0.0)
             return false;
         temp_total /= right_operand;
     }
