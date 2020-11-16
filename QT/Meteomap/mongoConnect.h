@@ -9,7 +9,7 @@
 #include <mongocxx/uri.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/options/count.hpp>
-
+#include <mongocxx/cursor.hpp>
 
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/stream/helpers.hpp>
