@@ -1,0 +1,4 @@
+#ifndef MONGOCONNECT_H
+#define MONGOCONNECT_H
+
+#endif // MONGOCONNECT_H
