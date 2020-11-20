@@ -28,9 +28,8 @@ int main(int argc, char** argv)
 
          mongocxx::cursor::iterator iter = myCur.begin();
          mongocxx::cursor::iterator iterEnd = myCur.end();
-
-         for(int64_t i = 1; iter != iterEnd; i++){
-             iter++;
+         iter++;
+         for(; iter != iterEnd; iter++){
 
              bsoncxx::document::element myName = (*iter)["name"];
              bsoncxx::document::element myLocation = (*iter)["location"]["coordinates"];
