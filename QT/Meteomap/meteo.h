@@ -5,7 +5,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QDebug>
-
+#include <QGraphicsItem>
+#include <QtMath>
 
 class Meteo : public QWidget
 {
