@@ -6,14 +6,16 @@ Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("Hello World")
+    title: qsTr("15 puzzle")
 
-/*    Tile {
-        width: root.width / 4
-        height: root.height / 4
+/*   Tile {
+        width: root.width / root.model.dimension
+        height: root.height / root.model.dimension
     }
 */
     GameBoard {
+        id: _gameBoard
         anchors.fill: parent
+        anchors.margins: 5
     }
 }

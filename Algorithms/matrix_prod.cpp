@@ -51,6 +51,7 @@ int** matrix_sum(int** matrix_1, int** matrix_2, int dim_1, int dim_2){
 
 
 int main(){
+    Timer t;
     int** matrix_1;
     int** matrix_2;
     int DIM1, DIM2;

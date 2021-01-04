@@ -3,9 +3,8 @@ CONFIG += c++11 link_pkgconfig
 PKGCONFIG += libmongocxx
 
 SOURCES += \
-        main.cpp \
-        meteo.cpp
+        main.cpp
 
 HEADERS += \
-    meteo.h \
+    MyView.h \
     mongoConnect.h

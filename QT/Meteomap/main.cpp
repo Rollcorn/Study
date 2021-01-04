@@ -2,14 +2,15 @@
 #include <QWidget>
 
 
-#include "meteo.h"
+#include "MyView.h"
 #include "mongoConnect.h"
+
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
     QGraphicsScene scene(QRectF(0, 0, 1080, 540));
-    QGraphicsView view(&scene);
+    MyView view(&scene);
 
     view.setFixedSize(QSize(1100, 550));
 
@@ -22,12 +23,17 @@ int main(int argc, char** argv)
          mongocxx::client           conn(myURI);
          mongocxx::database         myDB = conn["meteodb"];
          mongocxx::collection       myColl = myDB["cities"];
-         mongocxx::cursor           myCur = myColl.find({});
+
+         auto order = document{} << "priority" << -1 << finalize;
+         auto myDoc = mongocxx::options::find{};
+         myDoc.sort(order.view());
+
+         mongocxx::cursor           myCur = myColl.find({}, myDoc);
 
          mongocxx::cursor::iterator iter = myCur.begin();
          mongocxx::cursor::iterator iterEnd = myCur.end();
-         iter++;
-         for(; iter != iterEnd; iter++){
+         int numb = 1;
+         for (; ++iter != iterEnd; iter++) {
 
              bsoncxx::document::element myName = (*iter)["name"];
              bsoncxx::document::element myLocation = (*iter)["location"]["coordinates"];
@@ -35,7 +41,7 @@ int main(int argc, char** argv)
              bsoncxx::document::element myMinLvl = (*iter)["min_level"];
              bsoncxx::document::element myMaxLvl = (*iter)["max_level"];
 //Получаю данные из БД
-             std::string strName = myName.get_string().value.to_string();
+             std::string strName = std::string(myName.get_string().value.to_string());
              double x = double((myLocation.get_array().value[0]).get_double());
              double y = double((myLocation.get_array().value[1]).get_double());
              int32_t strPriority = int32_t(myPriority.get_int32().value);
@@ -50,6 +56,9 @@ int main(int argc, char** argv)
                        << "Минимальный: " << strMinLvl << "; "
                        << "Максимальный: " << strMaxLvl
                        << std::endl;
+
+             std::cout << numb++ << std::endl;
+
 //Создаю объект обозначающих город в данной точке.
                 QGraphicsRectItem* cityPoint = scene.addRect(QRectF(0, 0, 10, 10), QPen(Qt::black), QBrush(Qt::red));
 //Преобразую координаты карты к координатам сцены на экране.
@@ -68,6 +77,7 @@ int main(int argc, char** argv)
                 cityPoint->setPos(3*locX, 3*locY);
 //Прячу эллементы в случае коллизии.
                 if(!cityPoint->collidingItems().isEmpty()){
+
                     cityPoint->hide();
                 }
              view.show();

@@ -4,8 +4,6 @@ Rectangle {
     id: root
 
     property string displayText: ""
-//    readonly property alias internalText: _firstText
-
     color: "lightgreen"
 
     radius: 10

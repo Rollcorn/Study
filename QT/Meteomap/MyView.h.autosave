@@ -1,0 +1,40 @@
+#ifndef METEO_H
+#define METEO_H
+#include <QWidget>
+#include <QApplication>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QDebug>
+#include <QGraphicsItem>
+#include <QtMath>
+#include <QGraphicsSceneEvent>
+
+class MyView : public QGraphicsView
+{
+    Q_OBJECT
+
+
+public:
+    MyView(QGraphicsScene* pScene, QWidget* pwgt = 0) : QGraphicsView(pScene, pwgt){};
+
+
+private slots:
+
+    int scale;
+
+
+    void zoomIn()
+    {
+
+    };
+    void zoomOut()
+    {
+
+    };
+
+
+};
+
+
+
+#endif // METEO_H

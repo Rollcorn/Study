@@ -10,11 +10,13 @@
 #include <mongocxx/instance.hpp>
 #include <mongocxx/options/count.hpp>
 #include <mongocxx/cursor.hpp>
+#include <mongocxx/options/find.hpp>
 
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/stream/helpers.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/builder/stream/array.hpp>
+
 
 
 

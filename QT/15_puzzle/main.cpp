@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     GameBoard model;
+    qmlRegisterType<GameBoard> ("Game", 1, 0, "GameBoardModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
