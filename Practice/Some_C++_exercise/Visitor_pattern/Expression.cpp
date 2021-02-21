@@ -10,9 +10,20 @@
 значения левого и правого операнда и вернуть их сумму.
 */
 
+struct Number;
+struct BinaryOperation;
+struct PrintVisitor;
+
+struct Visitor {
+    virtual void visitNumber(Number const * number) = 0;
+    virtual void visitBinaryOperation(BinaryOperation const * operation) = 0;
+    virtual ~Visitor() { }
+};
+
 struct Expression
 {
     virtual double evaluate() const = 0;
+    virtual void visit(Visitor * vistitor) const = 0;
     virtual ~Expression(){};
 };
 
@@ -25,6 +36,10 @@ struct Number : Expression
     double evaluate() const {
         return value;
     }
+
+    double get_value() const { return this->value; }
+
+    void visit(Visitor * visitor) const { visitor->visitNumber(this);};
 
     ~Number(){};
 
@@ -43,33 +58,30 @@ struct BinaryOperation : Expression
     { }
     
     double evaluate() const{
-        double value_ = 0;
-/*        if( op == '+')
-            value_ = (left->evaluate() + right->evaluate());
-        else if( op == '-')
-            value_ = (left->evaluate() - right->evaluate());
-        else if( op == '*')
-            value_ = (left->evaluate() * right->evaluate());
-        else if( op == '/')
-            value_ = (left->evaluate() / right->evaluate());    
-*/
-          switch (op){
+        double value = 0;
+         switch (op){
           case '+':
-              value_ = (left->evaluate() + right->evaluate());
+              value = (left->evaluate() + right->evaluate());
               break;
           case '-':
-              value_ = (left->evaluate() - right->evaluate());
+              value = (left->evaluate() - right->evaluate());
               break;  
           case '*':
-              value_ = (left->evaluate() * right->evaluate());
+              value = (left->evaluate() * right->evaluate());
               break;  
           case '/':
-              value_ = (left->evaluate() / right->evaluate());
+              value = (left->evaluate() / right->evaluate());
           }
 
-        return value_;
+        return value;
     }
-    
+
+    Expression const * get_left() const { return this->left; }
+    Expression const * get_right() const { return this->right; }
+    char get_op() const { return op; }
+
+    void visit(Visitor * visitor) const { visitor->visitBinaryOperation(this);};  
+
     ~BinaryOperation(){
         delete left;
         delete right;
@@ -81,6 +93,27 @@ private:
     char op;
 };
 
+struct PrintVisitor : Visitor {
+    void visitNumber(Number const * number)
+    {
+        std::cout << number->get_value();
+    }
+
+    void visitBinaryOperation(BinaryOperation const * bop)
+    {
+        if(bop->get_op() == '+' || bop->get_op() == '-'){
+            std::cout << '(';
+            bop->get_left()->visit(this);
+            std::cout << bop->get_op();
+            bop->get_right()->visit(this);
+            std::cout << ')';
+        }else{
+            bop->get_left()->visit(this);
+            std::cout << bop->get_op();
+            bop->get_right()->visit(this);
+        }
+    }
+};
 
 int main(){
     //выражению 3 + 4.5 * 5 будет соответствовать следующий код
@@ -88,7 +121,9 @@ int main(){
     Expression * sube = new BinaryOperation(new Number(4.5), '*', new Number(5));
     // потом используем его в выражении для +
     Expression * expr = new BinaryOperation(new Number(3), '+', sube);
-
+    
+    PrintVisitor v;    
+    expr->visit(&v);
     // вычисляем и выводим результат: 25.5
     std::cout << expr->evaluate() << std::endl;
 
