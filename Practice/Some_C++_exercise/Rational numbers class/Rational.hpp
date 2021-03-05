@@ -89,6 +89,10 @@ struct Rational {
     friend bool operator<(Rational const &lhs, Rational const& rhs)
     friend bool operator==(Rational const &lhs, Rational const& rhs);
 
+//Оператор приведения типа Rational к типу double
+    operator double() const {
+        return static_cast<double>(numerator_) / denominator_;
+    }
 
 private:
     int numerator_;
