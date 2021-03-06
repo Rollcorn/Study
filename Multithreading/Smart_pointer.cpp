@@ -5,7 +5,9 @@ class SmartPointer {
 private:
     Type* pointer;
 public:
+    //Конструктор
     SmartPointer(Type* p):pointer(p) {};
+    //Оператор разыменования
     operator Type*() {return pointer; };
     Type* operator->() {
         if(!pointer){
@@ -14,9 +16,11 @@ public:
         }
         return pointer; 
     };
+
     std::ptrdiff_t operator-(SmartPointer<Type> p){
         return pointer - p;
     }
+
     std::ptrdiff_t operator-(void* p){
         return pointer - p;
     }
